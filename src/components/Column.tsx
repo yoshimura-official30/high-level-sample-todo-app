@@ -1,15 +1,15 @@
-import { FC } from "react";
+import Card from "./Card";
+import { CardType } from "../types/card";
 import { useDroppable } from "@dnd-kit/core";
-import Card, { CardType } from "./Card";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 
-export type ColumnType = {
+type ColumnProps = {
   id: string;
   title: string;
   cards: CardType[];
 };
 
-const Column: FC<ColumnType> = ({ id, title, cards }) => {
+const Column = ({ id, title, cards }: ColumnProps) => {
   const { setNodeRef } = useDroppable({ id });
 
   return (
