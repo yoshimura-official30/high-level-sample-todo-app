@@ -1,33 +1,30 @@
 import { FC } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
+
 export type CardType = {
   id: string;
   title: string;
 };
 
 const Card: FC<CardType> = ({ id, title }) => {
-  // useSortableに指定するidは一意になるよう設定する必要があります。s
-  const { attributes, listeners, setNodeRef, transform } = useSortable({
-    id: id
-  });
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
 
   const style = {
-    margin: "10px",
-    opacity: 1,
-    color: "#333",
-    background: "white",
-    padding: "10px",
-    transform: CSS.Transform.toString(transform)
+    transform: CSS.Transform.toString(transform),
+    transition,
   };
 
   return (
-    // attributes、listenersはDOMイベントを検知するために利用します。
-    // listenersを任意の領域に付与することで、ドラッグするためのハンドルを作ることもできます。
-    <div ref={setNodeRef} {...attributes} {...listeners} style={style}>
-      <div id={id}>
-        <p>{title}</p>
-      </div>
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
+      className="m-2 p-4 bg-white text-gray-800 shadow rounded-md cursor-move"
+    >
+      <p>{title}</p>
     </div>
   );
 };

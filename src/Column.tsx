@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { useDroppable } from "@dnd-kit/core";
 import Card, { CardType } from "./Card";
+import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 
 export type ColumnType = {
   id: string;
@@ -10,34 +10,19 @@ export type ColumnType = {
 };
 
 const Column: FC<ColumnType> = ({ id, title, cards }) => {
-  const { setNodeRef } = useDroppable({ id: id });
+  const { setNodeRef } = useDroppable({ id });
+
   return (
-    // ソートを行うためのContextです。
-    // strategyは4つほど存在しますが、今回は縦・横移動可能なリストを作るためrectSortingStrategyを採用
-    <SortableContext id={id} items={cards} strategy={rectSortingStrategy}>
-      <div
-        ref={setNodeRef}
-        style={{
-          width: "200px",
-          background: "rgba(245,247,249,1.00)",
-          marginRight: "10px"
-        }}
-      >
-        <p
-          style={{
-            padding: "5px 20px",
-            textAlign: "left",
-            fontWeight: "500",
-            color: "#575757"
-          }}
-        >
-          {title}
-        </p>
+    <div ref={setNodeRef} className="w-52 bg-gray-100 mr-2 rounded shadow-sm">
+      <p className="px-5 py-2 text-left font-medium text-gray-700 border-b border-gray-200">
+        {title}
+      </p>
+      <SortableContext items={cards.map((card) => card.id)} strategy={rectSortingStrategy}>
         {cards.map((card) => (
-          <Card key={card.id} id={card.id} title={card.title}></Card>
+          <Card key={card.id} id={card.id} title={card.title} />
         ))}
-      </div>
-    </SortableContext>
+      </SortableContext>
+    </div>
   );
 };
 
